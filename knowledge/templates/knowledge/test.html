@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap %}
+{% block content%}
+
+<div>
+
+
+    <!--Form-->
+
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <h1>上传内容</h1>
+
+                <p>在这里选择你喜欢的内容上传到系统</p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="span12">
+                <h2>文档</h2>
+
+                <hr/>
+
+                <form class="form-horizontal">
+                    <legend>Form Title</legend>
+                    {% csrf_token %}
+                    {{ form|bootstrap_horizontal }}
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <button type="submit" class="btn btn-primary">完成并提交</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="{% static 'blog/js/jquery-3.1.1.min.js' %}"></script>
+    <script>
+        $(function () {
+            //var contains_File = $('#id_contains_File').is(':checked')
+
+            $('#id_file_container').parent().hide()
+            $('#id_markdown_content_container').parent().hide()
+
+            $('#id_contains_File').click(function () {
+                $('#id_file_container').parent().toggle('slow');
+
+
+            })
+
+
+            $('#id_is_Markdown').click(function () {
+                $('#id_content_container').parent().toggle('slow')
+                $('#id_markdown_content_container').parent().toggle('slow');
+            })
+
+
+        });
+
+    </script>
+
+</div>
+
+
+{% endblock content%}
+
+
+{% block sidebar%}
+
+{% endblock sidebar%}
+
+

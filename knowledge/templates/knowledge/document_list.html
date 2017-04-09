@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title%}
+文档列表
+{% endblock title%}
+{% block content%}
+<div>
+<!--Form-->
+<style type="text">
+.multiple-checkbox ul { /* Used to hide <li> elements in multiple checkbox forms */
+padding-left: 0px;
+list-style: none;
+}
+</style>
+<div class="container">
+<div class="row">
+<div class="span12">
+<h1>文档列表</h1>
+
+<p>在这里查看所有文档</p>
+</div>
+</div>
+
+
+<div class="row">
+<div class="span12">
+<h2></h2>
+
+<hr/>
+
+
+<div class="results">
+<table id="result_list" class="table bordered">
+<thead>
+<tr>
+<th class="action-checkbox">
+<input type="checkbox" id="action-toggle" /><label for="action-toggle">&nbsp;</label>
+</th>
+<th scope="col"  class="column-__str__">
+        <span>文档</span>
+</th>
+<th scope="col"  class="column-__str__">
+        <span>审核状态</span>
+</th>
+<th scope="col"  class="column-__str__">
+        <span>日期</span>
+</th>
+</tr>
+</thead>
+
+<tbody>
+{% for article in object_list %}
+<tr class="row1">
+<td class="action-checkbox">
+    <input class="action-select" name="_selected_action" id="_selected_action_1" type="checkbox" value="3" />
+    <label for="_selected_action_1">&nbsp;&nbsp;</label>
+</td>
+<th class="field-__str__"><a href="assess/{{article.slug}}">{{ article.name }}</a></th>
+<th class="field-__str__">{{article.status}}</th>
+<th class="field-__str__">{{ article.date|date }}</th>
+
+
+</tr>
+{% empty %}
+<li>No articles yet.</li>
+{% endfor %}
+</tbody>
+</table>
+<div align="center">
+{{object_list|length}}篇文档
+
+</div>
+<br>
+</div>
+
+</div>
+</div>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+</div>
+
+
+</div>
+{% endblock content%}
+{% block sidebar%}
+
+{% endblock sidebar%}
+

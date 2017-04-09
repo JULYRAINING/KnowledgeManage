@@ -1,0 +1,37 @@
+{% load static %}
+          <div class="row">
+
+            {% for post in object_list %}
+            <div class="col-sm-6">
+              <section class="blog-post">
+                <div class="panel panel-default">
+                  <img src="{% static 'blog/image/unsplash-2.jpg' %}"  class="img-responsive" />
+                  <div class="panel-body">
+                    <div class="blog-post-meta">
+                      <span class="label label-light label-primary">{{post.category}}</span>
+                      <p class="blog-post-date pull-right">{{post.date}}</p>
+                    </div>
+                    <div class="blog-post-content">
+                      <a href="post_content" >
+                        <h2 class="blog-post-title">{{post.name}}</h2>
+                      </a>
+                      <p>{{post.description|truncatewords:100}}</p>
+                      <a class="btn btn-info" href="{{post.slug}}" >{{read_more}}</a>
+                      <a class="blog-post-share pull-right" href="#">
+                        <i class="fa fa-share fa-lg"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section><!-- /.blog-post -->
+
+            </div>
+            {% endfor %}
+          </div>
+
+          <nav>
+            <ul class="pager">
+              <li><a class="withripple" href="#">{{previous}}</a></li>
+              <li><a class="withripple" href="#">{{next}}</a></li>
+            </ul>
+          </nav>

@@ -1,0 +1,16 @@
+{% load static %}
+    <script src="{% static 'blog/js/jquery-3.1.1.min.js' %}" ></script>
+    <script src="{% static 'blog/js/bootstrap.min.js' %}" ></script>
+    <script src="{% static 'blog/js/ripples.min.js' %}" ></script>
+    <script src="{% static 'blog/js/material.min.js' %}" ></script>
+    <script src="{% static 'blog/js/material-scrolltop.js' %}" ></script>
+    <script src="{% static 'blog/js/main.js' %}" ></script>
+
+    <script>
+      $.material.init();
+      $('body').materialScrollTop();
+    </script>
+    <script>
+      $('.dropdown').mouseenter(function(){this.setAttribute('class', 'dropdown open')})
+      $('.dropdown').mouseleave(function(){  this.removeAttribute('class');this.setAttribute('class', 'dropdown');})
+    </script>

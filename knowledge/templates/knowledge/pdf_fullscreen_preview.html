@@ -1,0 +1,26 @@
+{% load static%}
+<html>
+
+<head>
+
+</head>
+    <head>
+        <title>查看文档</title>
+    </head>
+    <body>
+    <div id="example1"></div>
+    </body>
+
+   <script src="{% static 'blog/js/pdfobject.js' %}"></script>
+     <script>
+var options = {
+   page: "1",
+    pdfOpenParams: {
+        view: 'FitV',
+        pagemode: 'thumbs',
+        search: '1'
+    }
+};
+PDFObject.embed("{{ MEDIA_URL }}{{file_path}}", "#example1", options);
+</script>
+</html>

@@ -1,0 +1,132 @@
+{% load static %}
+<html>
+<head>
+    <meta charset=utf-8"utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>{% block title %}{{title}}{% endblock title %}</title>
+   <!-- Bootstrap core CSS and Material Bootstrap -->
+    <link href="{% static 'user/css/bootstrap.css' %}"  rel="stylesheet">
+ <!-- Fonts -->
+
+
+    <link href="{% static 'user/css/bootstrap-modal.css' %}"  rel="stylesheet">
+    <link href="{% static 'user/css/bootstrap-responsive.css' %}"  rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{% static 'blog/js/html5shiv.min.js' %}" ></script>
+      <script src="{% static 'blog/js/respond.min.js' %}" ></script>
+    <![endif]-->
+  </head>
+<body>
+
+<div class="text-center">
+    <button id = "toggle" class="demo btn btn-primary btn-large" data-toggle="modal" href="#responsive">Login</button>
+</div>
+
+<div class="text-center">
+    <button id = "toggle_logout" class="demo btn btn-primary btn-large" data-toggle="modal" href="#responsive_logout">Logout</button>
+</div>
+
+<div id="responsive_logout" class="modal container hide fade" tabindex="-1">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Logout</h3>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure to logout?</p>
+  </div>
+    <form action = "/logout/" method="post">
+  <div class="modal-footer">
+    <button type="button" data-dismiss="modal" class="btn">Close</button>
+    <button type="submit" class="btn btn-primary">Confirm</button>
+  </div>
+    </form>
+</div>
+
+
+
+<!-- Modal Definitions (tabbed over for <pre>) -->
+<div id="responsive" class="modal hide fade in" tabindex="-1" data-width="760">
+<form  action = "" method="post">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>login</h3>
+  </div>
+
+  <div class="modal-body">
+    <div class="row-fluid">
+
+      <div class="span6">
+
+        <p><input type="text" class="span12" value = "katherine" name = "username" placeholder="username"/></p>
+        <p><input type="text" class="span12" value = "heaven.hell" name = "password" placeholder="password"/></p>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" data-dismiss="modal" class="btn">Close</button>
+    <button id = "submit" class="btn btn-primary">Login</button>
+      <span  class="information"></span>
+      {% for message in messages %}
+    <span {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+    {% endfor %}
+  </div>
+    </form>
+</div>
+</body>
+
+<script src="{% static 'user/js/jquery.min.js' %}" ></script>
+<script src="{% static 'user/js/bootstrap.js' %}" ></script>
+<script src="{% static 'user/js/bootstrap-modalmanager.js' %}" ></script>
+<script src="{% static 'user/js/bootstrap-modal.js' %}" ></script>
+<script>
+    <!--页面加载后点击按钮， 弹出登录Modal-->
+    window.onready = function () {
+
+        $('#toggle').click()
+    }
+
+</script>
+<script>
+    <!--Ajax登录-->
+    $('#submit').click(function(){
+        var loginForm = $('form').serializeArray();
+        var loginFormObject = {};
+        $.each(loginForm,
+            function(i, v) {
+                loginFormObject[v.name] = v.value;
+        });
+        var data = JSON.stringify(loginFormObject)
+        $.ajax({
+			url:'/login/',
+			type:'post',
+            data: data,
+			dataType:'json',
+			contentType:'application/json',
+			success:function(data) {
+				$('#information').innerHTML = data.responseText
+			}
+		});
+    });
+
+</script>
+<script>
+    document.onkeydown=function(event){
+              var e = event || window.event || arguments.callee.caller.arguments[0];
+              if(e && e.keyCode==13){ // enter 键
+                  $('#submit').click()
+             }
+         };
+
+</script>
+</html>

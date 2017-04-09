@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static%}
+{% block title%}
+文档列表
+{% endblock title%}
+{% block content%}
+
+
+
+<div>
+    <!--Form-->
+    <style type="text">
+        .multiple-checkbox ul { /* Used to hide <li> elements in multiple checkbox forms */
+            padding-left: 0px;
+            list-style: none;
+        }
+    </style>
+
+
+        <div class="row">
+            <div class="span12">
+
+                <h1>{{ object.name }}</h1>
+
+                <p>{{ object.description }}</p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="span12">
+                <h2></h2>
+
+
+                <h5>作者:{{ object.author }}</h5>
+                <h5>上传者:{{ object.uploader }}</h5>
+                <h5>发布时间: {{ object.date|date }}</h5>
+                <br>
+                    {% if object.is_Markdown %}
+                        <p>{{object.formatted_markdown|safe }}</p>
+                    {% else %}
+                        <p>{{object.content|linebreaks}}</p>
+                    {% endif %}
+
+                 <br>
+                <br>
+                 <p>{{object.formatted_markdown|safe }}</p>
+                 <br>
+                <a href="{{object.file}}">asdf</a>
+                <p align="center">{{ now|date }}</p>
+
+            </div>
+        </div>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+
+
+    </div>
+<!--
+<button class="material-fab-button" type="button"><i class="fa fa-angle-up fa-2x"></i></button>
+
+<style type="text/css">
+
+.material-fab-button {
+    display: block;
+    position: fixed;
+    width: 56px;
+    height: 56px;
+    bottom: 100px;
+    right: 23px;
+    padding: 0;
+
+    outline: none;
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+    cursor: hand;
+    border-radius: 50%;
+    background: #009688;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1);
+    -ms-transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1);
+    -moz-transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1);
+    -o-transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1);
+    transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1);
+}
+</style>
+-->
+
+</div>
+{% endblock content%}
+{% block sidebar%}
+
+{% endblock sidebar%}
+
+
+

@@ -1,0 +1,4 @@
+tppabs=".*?"
+"(.*css)" "{% static 'blog/css/$1' %}"
+"(.*js)" "{% static 'blog/js/$1' %}"
+url.*/(.*jpg) url{% static 'blog/image/$1' %}

@@ -1,0 +1,1 @@
+[{"model": "knowledge.documentstatus", "pk": 1, "fields": {"status": "\u5f85\u5ba1\u6838"}}, {"model": "knowledge.documentstatus", "pk": 2, "fields": {"status": "\u672a\u901a\u8fc7"}}, {"model": "knowledge.documentstatus", "pk": 3, "fields": {"status": "\u5df2\u901a\u8fc7"}}]

@@ -1,0 +1,63 @@
+{% load static %}
+<div class="navbar navbar-material-blog navbar-primary navbar-absolute-top">
+
+      <div class="navbar-image" style="background-image: url({% static 'blog/image/unsplash-6.jpg' %});background-position: center 40%;"></div>
+
+      <div class="navbar-wrapper container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/knowledge" ><i class="material-icons"></i> {{title}}</a>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+          <ul class="nav navbar-nav">
+
+            {% for key, value in menu.items %}
+            <li class="dropdown">
+              <a href="javascript:void(0)"  data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{key}} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+
+                  {% for subMenu,subUrl in value.items %}
+                <li><a href="{{subUrl}}" >{{subMenu}}</a></li>
+
+                  {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if request.user.is_authenticated %}
+                {% for key, value in user_profile.items %}
+            <li class="dropdown">
+              <a href="javascript:void(0)"  data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{request.user}} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+
+                  {% for subMenu,subUrl in value.items %}
+                <li><a href="{{subUrl}}" >{{subMenu}}</a></li>
+
+                  {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+            {%else%}
+                {% for key, value in guest.items %}
+            <li class="dropdown">
+              <a href="javascript:void(0)"  data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{key}} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+
+                  {% for subMenu,subUrl in value.items %}
+                <li><a href="{{subUrl}}" >{{subMenu}}</a></li>
+
+                  {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+            {%endif%}
+          </ul>
+        </div>
+      </div>
+    </div>

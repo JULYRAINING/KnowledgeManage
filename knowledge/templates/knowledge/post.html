@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load static %}
+{% load raining_tag %}
+{% block content%}
+<div class="col-sm-8 blog-main">
+    <!-- Document -->
+    <section class="blog-post">
+        <div class="panel panel-default">
+            <img src="{% static 'blog/image/unsplash-2.jpg' %}" class="img-responsive"/>
+            <div class="panel-body">
+                <div class="blog-post-meta">
+                    <span class="label label-light label-warning">{{object.category}}</span>
+                    <p class="blog-post-date pull-right">{{object.date}}</p>
+                </div>
+                <div class="blog-post-content">
+                    <h2 class="blog-post-title">{{object.name|title}}</h2>
+                    <br>
+                    <div class="blog-post-meta">{{object.description}}</div>
+                    <!--content div-->
+                    <div>
+
+                        {% if object.is_Markdown %}
+                        <p>{{object.formatted_markdown|safe }}</p>
+                        {% else %}
+                        <p>{{object.content|linebreaks}}</p>
+                        {% endif %}
+                    </div>
+                    <!--PDF file div-->
+                    <div>
+                        {% if object.contains_File%}
+
+                        <div>
+                            附件：<a href="{{ MEDIA_URL }}{{object.file}}">{{object.file|split:"/"|last}}</a>
+                            <div id="example1"></div>
+                            <div align="center">
+                                <a href="../preview?file_path={{object.file}}">全屏查看</a>
+                            </div>
+                            <script src="{% static 'blog/js/pdfobject.js' %}"></script>
+                            <style>
+                                .pdfobject-container {
+                                    height: 300px;
+                                }
+
+                                .pdfobject {
+                                    border: 1px solid #666;
+                                }
+                            </style>
+                            <script src="{% static 'blog/js/jquery-3.1.1.min.js' %}"></script>
+
+
+                            <script>
+                                var options = {
+                                    page: "1",
+                                    pdfOpenParams: {
+                                        view: 'FitV',
+                                        pagemode: 'thumbs',
+                                        search: '1'
+                                    }
+                                };
+                                PDFObject.embed("{{ MEDIA_URL }}{{object.file}}", "#example1", options);
+                            </script>
+                        </div>
+
+                        {% else%}
+
+                        {% endif%}
+                    </div>
+                    <!--Tag div-->
+                    <div class="row">
+                        {% for tag in object.tag%}
+                        <div class="col-md-2">
+
+                            <span class="tag label label-info">{{tag}}<span data-role="remove"></span></span>
+                            <br> <br>
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section><!-- /.blog-post -->
+    <!-- Comment -->
+    <section class="blog-main">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h2 class="blog-post-title">评论</h2>
+                <br>
+                <div id="commentlistDiv">
+                    <div>
+
+
+                        <div class="panel  panel-default">
+                            <div class="panel-body">
+                                <div class="blog-post-meta">
+                                    <textarea id="commentinput" rows=5 placeholder="评论内容" type="text"
+
+                                              oninput="removeError()"
+
+                                              class="form-control"></textarea>
+                                    <script>
+                                        //当输入评价内容时， 清空错误信息
+                                        function removeError() {
+
+                                            $('#commenterror').html('')
+                                        }
+                                    </script>
+                                </div>
+                                <div class="blog-post-meta">
+                                    <div class="row">
+                                        <div class="col-sm-1 "></div>
+                                        <div class="col-sm-8 " id="commenterror"></div>
+                                        <button id="commentsubmit" type="button"
+                                                class="col-sm-2 btn btn-primary">
+                                            完成
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="">
+                            <div id="commentlistul">
+                                {% for comment in comments%}
+                                <div class="panel  panel-default">
+                                    <div class="panel-body">
+                                        <div class="blog-post-meta">
+                                            <h4>{{comment.author}}</h4>
+                                            <p class="blog-post-date ">{{comment.date}}</p>
+                                        </div>
+                                        <div class="blog-post-meta">
+                                            {{comment.content|linebreaks}}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <script src="{% static 'blog/js/jquery-3.1.1.min.js' %}"></script>
+                    <script>
+                        //对评价按钮注册用户点击事件
+                        $('#commentsubmit').click(prependComment)
+                        //生成评论的面板panel， 添加到评价列表中第一位
+                        function prependComment() {
+                            var content = $('#commentinput').val()
+                            if (content == '') {
+                                $('#commenterror').html('<p style="color:red">请输入评论内容</p> ')
+                                return false
+                            }
+                            var element = $('#commentlistul')
+                            var html = '<div class="panel  panel-default">'
+                            html += '<div class="panel-body">'
+                            html += '<div class="blog-post-meta">'
+                            html += '<h4>author</h4>'
+                            html += '<p class="blog-post-date ">date</p>'
+                            html += '</div>'
+                            html += '<div class="blog-post-meta">'
+                            html += '231'
+                            html += '</div>'
+                            html += '</div>'
+                            html += '</div>'
+                            var commentNode = $(html)
+
+                            //替换用户信息 与评价内容
+                            $('h4', commentNode)[0].innerHTML = '{{request.user}}'
+                            $('p', commentNode)[0].innerHTML = '{{now}}'
+
+                            $('.blog-post-meta', commentNode)[1].innerHTML = content
+                            //显示评论信息
+                            commentNode.hide().prependTo(element).show('slow')
+                            var document_id = '{{object.id}}'
+                            //提交到后台
+                            $.post('../comment/', {'documentid': document_id, 'content': content}, function (data) {
+                                $('#commenterror').html('<p style="color:darkcyan">' + data + '</p> ')
+                            })
+                        }
+
+
+                    </script>
+
+                    <script>
+                        var comments = {
+                        {
+                            comments | safe
+                        }
+                        }
+                        for (i = 0; i < comments.length; i++) {
+                            var para = document.createElement('li')
+                            para.setAttribute('class', 'panel')
+                            var para_body = document.createElement('div')
+                            para_body.setAttribute('class', 'panel-body')
+                            var text = document.createTextNode(comments[i])
+
+                            para_body.appendChild(text)
+                            para.appendChild(para_body)
+
+
+                            var element = document.getElementById('commentlistul')
+
+                            element.appendChild(para)
+
+                        }
+
+
+                    </script>
+
+                </div>
+            </div>
+    </section>
+
+</div><!-- /.blog-main -->
+
+{% endblock content%}
+
+
+

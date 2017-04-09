@@ -1,0 +1,86 @@
+{% extends "base.html"%} {% load static %} {% load material_form %} {% block content%}
+
+<div>
+
+
+    <!--Form-->
+    <link href="{% static 'markdownx/admin/css/markdownx.css' %}" rel="stylesheet">
+
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <h1>上传内容</h1>
+
+                <p>在这里选择你喜欢的内容上传到系统</p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="span12">
+                <h2>文档</h2>
+
+                <hr/>
+
+                <form role="form" method="post" action="" enctype="multipart/form-data">
+
+                    {% form form=form %} {% part form.markdown_content%}
+                    <div class="row">
+                        <div class="input-field col s12 markdownx" id="id_markdown_content_container">
+                            <div>
+                                <textarea class="col s6 materialize-textarea  markdownx-editor" style="min-height:100px" data-markdownx-upload-urls-path="/markdownx/upload/"
+                                    data-markdownx-urls-path="/markdownx/markdownify/" id="id_markdown_content" name="markdown_content"
+                                    data-markdownx-editor-resizable>
+</textarea>
+                                <label for="id_markdown_content">Markdown</label>
+                                <div class="col s6 markdownx-preview"></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endpart %} {% endform %}
+
+                    <button type="submit" name="_submit" class="btn">完成并提交</button>
+
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="{% static 'blog/js/jquery-3.1.1.min.js' %}"></script>
+    <script>
+        // Material Select Initialization
+        $(document).ready(function () {
+            $('.mdb-select').material_select();
+        });
+    </script>
+    {{ form.media }}
+    <script>
+        $(function () {
+            //var contains_File = $('#id_contains_File').is(':checked')
+            //clear textarea
+            $('#id_markdown_content').empty()
+            $('#id_file_container').parent().hide()
+            $('#id_markdown_content_container').parent().hide()
+
+            $('#id_contains_File').click(function () {
+                $('#id_file_container').parent().toggle('slow');
+
+
+            })
+
+
+            $('#id_is_Markdown').click(function () {
+                $('#id_content_container').parent().toggle('slow')
+                $('#id_markdown_content_container').parent().toggle('slow');
+            })
+
+
+        });
+    </script>
+    {% include 'material/includes/material_css.html' %} {% include 'material/includes/material_js.html' %}
+</div>
+
+
+{% endblock content%} {% block sidebar%} {% endblock sidebar%}

@@ -1,0 +1,54 @@
+{% load static %}
+
+<html lang="en">
+  {% block head %}
+    {% include "head.html"%}
+
+  {% endblock head %}
+
+  <body>
+    {% block navigation%}
+      {% include "navigation.html"%}
+    {% endblock navigation%}
+
+    {% block container%}
+    <div class="container blog-content">
+
+      <div class="row">
+
+
+        {% block content%}
+
+        <div class="col-sm-8 blog-main">
+          {% block page_header%}
+          {% endblock page_header%}
+            {% include "post_item.html"%}
+
+        </div><!-- /.blog-main -->
+
+        {% endblock content%}
+
+        {% block sidebar%}
+        
+        {% endblock sidebar%}
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+    {% endblock container%}
+
+    {% block footer%}
+      {% include "footer.html"%}
+    {% endblock footer%}
+
+    {% block scrolltop_button%}
+      {% include "scrolltop.html"%}
+    {% endblock scrolltop_button%}
+
+
+
+  </body>
+{% block script%}
+      {% include "script.html"%}
+    {% endblock script%}
+</html>
+
